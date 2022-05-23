@@ -1,6 +1,5 @@
 package ru.job4j.grabber;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement statement = cc.prepareStatement(
-                "insert into post(name, text, link, created) values(?, ?, ?, ?)",
+                "insert into post(name, text, link, created) values(?, ?, ?, ?) on conflict(link) do nothing",
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, post.getTitle());
             statement.setString(2, post.getDescription());
