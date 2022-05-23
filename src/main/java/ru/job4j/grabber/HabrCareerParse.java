@@ -1,6 +1,5 @@
 package ru.job4j.grabber;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,6 +31,20 @@ public class HabrCareerParse implements Parse {
         return document.select(".style-ugc").first().text();
     }
 
+    private Post parseElement(Element element) {
+        Element titleElement = element.select(".vacancy-card__title").first();
+        String title = titleElement.text();
+        String vacancyLink = titleElement.child(0).absUrl("href");
+        String date = element.select(".vacancy-card__date").first().child(0)
+                .attr("datetime");
+        String description = retrieveDescription(vacancyLink);
+        return new Post(
+                title,
+                vacancyLink,
+                description,
+                dateTimeParser.parse(date));
+    }
+
     @Override
     public List<Post> list(String link) {
         List<Post> result = new ArrayList<>();
@@ -40,20 +53,7 @@ public class HabrCareerParse implements Parse {
                 Document document = Jsoup.connect(String.format(
                         "%s%s%d", link, PAGE, i)).get();
                 Elements vacancies = document.select(".vacancy-card__inner");
-                vacancies.forEach(vacancy -> {
-                    Element titleElement = vacancy.select(".vacancy-card__title").first();
-                    String title = titleElement.text();
-                    String vacancyLink = titleElement.child(0).absUrl("href");
-                    String date = vacancy.select(".vacancy-card__date").first().child(0)
-                            .attr("datetime");
-                    String description = retrieveDescription(vacancyLink);
-                    result.add(new Post(
-                            title,
-                            vacancyLink,
-                            description,
-                            dateTimeParser.parse(date)
-                    ));
-                });
+                vacancies.forEach(vacancy -> result.add(parseElement(vacancy)));
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class HabrCareerParse implements Parse {
 
     public static void main(String[] args) throws IOException {
         HabrCareerParse parser = new HabrCareerParse(
-                new HabrCareerDateTimeParser(), 2);
+                new HabrCareerDateTimeParser(), 1);
         List<Post> posts = parser.list("https://career.habr.com/vacancies/java_developer");
         posts.forEach(System.out::println);
     }
