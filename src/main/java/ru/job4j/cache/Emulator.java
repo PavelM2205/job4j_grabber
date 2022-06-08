@@ -10,10 +10,10 @@ public class Emulator {
     private String cashingDirectory;
     private Scanner scanner = new Scanner(System.in);
     boolean run = true;
-    private static final int ACTION_ONE = 1;
-    private static final int ACTION_TWO = 2;
-    private static final int ACTION_THREE = 3;
-    private static final int ACTION_FOUR = 4;
+    private static final int SPECIFY_DIRECTORY = 1;
+    private static final int LOAD_FILE = 2;
+    private static final int GET_FILE = 3;
+    private static final int EXIT = 4;
 
 
     private void start() {
@@ -40,16 +40,16 @@ public class Emulator {
 
     private void actions(int number) {
         switch (number) {
-            case ACTION_ONE:
+            case SPECIFY_DIRECTORY:
                 specifyDirectory();
                 break;
-            case ACTION_TWO:
+            case LOAD_FILE:
                 loadFile();
                 break;
-            case ACTION_THREE:
+            case GET_FILE:
                 getFile();
                 break;
-            case ACTION_FOUR:
+            case EXIT:
                 run = false;
                 break;
             default:
