@@ -10,6 +10,11 @@ public class Emulator {
     private String cashingDirectory;
     private Scanner scanner = new Scanner(System.in);
     boolean run = true;
+    private static final int ACTION_ONE = 1;
+    private static final int ACTION_TWO = 2;
+    private static final int ACTION_THREE = 3;
+    private static final int ACTION_FOUR = 4;
+
 
     private void start() {
         while (run) {
@@ -35,16 +40,16 @@ public class Emulator {
 
     private void actions(int number) {
         switch (number) {
-            case 1:
+            case ACTION_ONE:
                 specifyDirectory();
                 break;
-            case 2:
+            case ACTION_TWO:
                 loadFile();
                 break;
-            case 3:
+            case ACTION_THREE:
                 getFile();
                 break;
-            case 4:
+            case ACTION_FOUR:
                 run = false;
                 break;
             default:
@@ -64,8 +69,8 @@ public class Emulator {
     private void loadFile() {
         System.out.print("Enter file name: ");
         String file = scanner.nextLine();
-        checkFile(file);
         if (cache != null) {
+            checkFile(file);
             String loaded = cache.load(file);
             cache.put(file, loaded);
             System.out.println("File is successfully loaded.\n");
@@ -77,8 +82,8 @@ public class Emulator {
     private void getFile() {
         System.out.print("Enter file name: ");
         String file = scanner.nextLine();
-        checkFile(file);
         if (cache != null) {
+            checkFile(file);
             System.out.println(cache.get(file));
             System.out.println();
         } else {
@@ -97,7 +102,7 @@ public class Emulator {
     }
 
     private void checkFile(String file) {
-        Path path = Path.of(String.format("%s/%s", cashingDirectory, file));
+        Path path = Path.of(cashingDirectory, file);
         if (!Files.exists(path)) {
             throw new IllegalArgumentException(String.format("%s isn't exist", file));
         }

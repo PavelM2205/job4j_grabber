@@ -13,10 +13,8 @@ public abstract class AbstractCache<K, V> {
     }
 
     public V get(K key) {
-        V value = null;
-        SoftReference<V> cachingValue = cache.get(key);
-        if (cachingValue != null && cachingValue.get() != null) {
-            value = cachingValue.get();
+        V value = cache.getOrDefault(key, new SoftReference<V>(null)).get();
+        if (value != null) {
             System.out.println("File is gotten from cache:");
         } else {
             value = load(key);
