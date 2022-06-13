@@ -13,38 +13,20 @@ public class MaxMinTest {
     public void whenMaxThenC() {
         MaxMin maxMin = new MaxMin();
         List<String> list = List.of("a", "b", "c");
-        Comparator<String> comp = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        };
-        assertEquals("c", maxMin.max(list, comp));
+        assertEquals("c", maxMin.max(list, Comparator.naturalOrder()));
     }
 
     @Test
     public void whenMinThenA() {
         MaxMin maxMin = new MaxMin();
         List<String> list = List.of("a", "b", "c");
-        Comparator<String> comp = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        };
-        assertEquals("a", maxMin.min(list, comp));
+        assertEquals("a", maxMin.min(list, Comparator.naturalOrder()));
     }
 
     @Test
     public void whenEmptyListThenNull() {
         MaxMin maxMin = new MaxMin();
         List<String> list = List.of();
-        Comparator<String> comp = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        };
-        assertNull(maxMin.max(list, comp));
+        assertNull(maxMin.max(list, Comparator.naturalOrder()));
     }
 }
