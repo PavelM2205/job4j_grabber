@@ -26,7 +26,7 @@ public class GeneratorTest {
         generator.produce(template, args);
     }
     @Ignore
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void whenArgumentsContainsLessKeysThanTemplateThenException() {
         Generator generator = new FirstGenerator();
         String template = "I am a ${name}, Who are ${subject}?";
