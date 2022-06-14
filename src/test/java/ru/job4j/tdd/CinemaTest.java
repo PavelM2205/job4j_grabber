@@ -45,6 +45,7 @@ public class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2022, 5, 25, 18, 30);
         cinema.buy(account, 1, 2, date);
+        cinema.buy(account, 1, 2, date);
     }
     @Ignore
     @Test
