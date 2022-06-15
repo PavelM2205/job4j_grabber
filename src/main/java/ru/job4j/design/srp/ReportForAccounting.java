@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 public class ReportForAccounting implements Report {
     private Store store;
+    public static final double BONUS = 1.2;
 
     public ReportForAccounting(Store store) {
         this.store = store;
@@ -24,6 +25,6 @@ public class ReportForAccounting implements Report {
     }
 
     private double changeSalary(double salary) {
-        return salary * 1.2;
+        return salary * BONUS;
     }
 }

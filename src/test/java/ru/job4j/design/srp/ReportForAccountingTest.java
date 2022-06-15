@@ -19,7 +19,7 @@ public class ReportForAccountingTest {
         store.add(worker);
         ReportForAccounting report = new ReportForAccounting(store);
         var formatter = new SimpleDateFormat("yyyy-MM-dd");
-        double changeSalary = worker.getSalary() * 1.2;
+        double changeSalary = worker.getSalary() * report.BONUS;
         StringBuilder text = new StringBuilder()
                 .append("Name; Hired; Fired; Salary")
                 .append(System.lineSeparator())

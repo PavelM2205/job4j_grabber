@@ -17,19 +17,18 @@ public class ReportForIT implements Report {
                 .append("<html>").append(ln)
                 .append("<head>").append(ln)
                 .append("<head>").append(ln)
-                .append("<body>").append(ln).append("\t")
-                .append("<employees>").append(ln).append("\t\t");
+                .append("<body>").append(ln)
+                .append("<employees>").append(ln).append(ln);
         for (var employee : store.findBy(filter)) {
-            text.append("<employee>").append(ln).append("\t\t\t")
-                    .append(String.format("<name>%s<name>", employee.getName())).append(ln)
-                    .append("\t\t\t")
+            text.append("<employee>").append(ln)
+                    .append(String.format("<name>%s<name>", employee.getName()))
+                    .append(ln)
                     .append(String.format("<hired>%s<hired>", dateFormatting(employee.getHired())))
-                    .append(ln).append("\t\t\t")
+                    .append(ln)
                     .append(String.format("<fired>%s<fired>", dateFormatting(employee.getFired())))
-                    .append(ln).append("\t\t\t")
+                    .append(ln)
                     .append(String.format("<salary>%.1f<salary>", employee.getSalary())).append(ln)
-                    .append("\t\t")
-                    .append("<employee>").append(ln).append("\t")
+                    .append("<employee>").append(ln)
                     .append(ln);
         }
         text.append("<employees>").append(ln)
