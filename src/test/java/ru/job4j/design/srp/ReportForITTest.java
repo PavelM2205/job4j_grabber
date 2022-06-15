@@ -38,7 +38,6 @@ public class ReportForITTest {
                 .append("<body>").append(ln)
                 .append("<html>").append(ln)
                 .append(ln);
-        //assertThat(report.generate(em -> true), is(expected.toString()));
-        System.out.println(expected);
+        assertThat(report.generate(em -> true), is(expected.toString()));
     }
 }
