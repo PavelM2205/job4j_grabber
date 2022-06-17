@@ -1,13 +1,27 @@
 package ru.job4j.design.srp;
 
+
+import com.google.gson.annotations.JsonAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Calendar;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Employee {
     private String name;
+    @JsonAdapter(MyDateAdapterForJSON.class)
+    @XmlJavaTypeAdapter(MyDateAdapterForJAXB.class)
     private Calendar hired;
+    @JsonAdapter(MyDateAdapterForJSON.class)
+    @XmlJavaTypeAdapter(MyDateAdapterForJAXB.class)
     private Calendar fired;
     private double salary;
+
+    public Employee() {
+    }
 
     public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;

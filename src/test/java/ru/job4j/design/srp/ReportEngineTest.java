@@ -2,7 +2,6 @@ package ru.job4j.design.srp;
 
 import org.junit.Test;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
