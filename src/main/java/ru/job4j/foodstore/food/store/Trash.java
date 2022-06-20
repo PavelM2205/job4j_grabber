@@ -10,13 +10,18 @@ public class Trash implements Store {
     private final List<Food> store = new ArrayList<>();
 
     @Override
-    public void add(Food food) {
-        store.add(food);
+    public boolean accept(Food food) {
+        return expiryCount(food) >= Percents.ONE_HUNDRED.getPercent();
     }
 
     @Override
-    public void addAll(List<Food> list) {
-        store.addAll(list);
+    public boolean add(Food food) {
+        boolean result = false;
+        if (accept(food)) {
+            store.add(food);
+            result = true;
+        }
+        return result;
     }
 
     @Override

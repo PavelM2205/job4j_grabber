@@ -23,8 +23,8 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(warehouse.findBy(fd -> true).get(0), is(list.get(0)));
     }
@@ -37,8 +37,8 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
     }
@@ -51,25 +51,25 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
     }
 
     @Test
-    public void whenExpiryIsSpentOn75PercentsThenFoodMustBeIntoShopAndDiscount0() {
+    public void whenExpiryIsSpentOn75PercentsThenFoodMustBeIntoShopAndPriceNotChanged() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime create = now.minusDays(75);
         LocalDateTime expiry = now.plusDays(25);
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
-        assertThat(shop.findBy(fd -> true).get(0).getDiscount(), is(0.0));
+        assertThat(shop.findBy(fd -> true).get(0).getPrice(), is(list.get(0).getPrice()));
     }
 
     @Test
@@ -80,8 +80,8 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
         assertThat(shop.findBy(fd -> true).get(0).getDiscount(), is(20.0));
@@ -95,11 +95,12 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
+        double expectedPrice = 120;
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
-        assertThat(shop.findBy(fd -> true).get(0).getDiscount(), is(20.0));
+        assertThat(shop.findBy(fd -> true).get(0).getPrice(), is(expectedPrice));
     }
 
     @Test
@@ -110,8 +111,8 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", expiry, create, 150, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", expiry, create, 150, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(trash.findBy(fd -> true).get(0), is(list.get(0)));
     }
@@ -126,11 +127,43 @@ public class ControlQualityTest {
         Store warehouse = new WareHouse();
         Store shop = new Shop();
         Store trash = new Trash();
-        List<Food> list = List.of(new Food("apple", appleExpiry, appleCreate, 150, 0),
-                new Food("meat", meatExpiry, meatCreate, 500, 0));
-        ControlQuality control = new ControlQuality(trash, shop, warehouse);
+        List<Food> list = List.of(new Food("apple", appleExpiry, appleCreate, 150, 20),
+                new Food("meat", meatExpiry, meatCreate, 500, 20));
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
         control.distribute(list);
         assertThat(shop.findBy(fd -> true).get(0), is(list.get(0)));
         assertThat(shop.findBy(fd -> true).get(1), is(list.get(1)));
+    }
+
+    @Test
+    public void whenAddFourFoodsThenMustBeAllAllCase() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime appleCreate = now.minusDays(20);
+        LocalDateTime appleExpiry = now.plusDays(80);
+        LocalDateTime meatCreate = now.minusDays(30);
+        LocalDateTime meatExpiry = now.plusDays(70);
+        LocalDateTime colaCreate = now.minusDays(80);
+        LocalDateTime colaExpiry = now.plusDays(20);
+        LocalDateTime milkCreate = now.minusDays(120);
+        LocalDateTime milkExpiry = now.minusDays(5);
+        double expectedPriceOfCola = 64;
+        Store warehouse = new WareHouse();
+        Store shop = new Shop();
+        Store trash = new Trash();
+        List<Food> list = List.of(
+                new Food("apple", appleExpiry, appleCreate, 150, 20),
+                new Food("meat", meatExpiry, meatCreate, 500, 20),
+                new Food("coca-cola", colaExpiry, colaCreate, 80, 20),
+                new Food("milk", milkExpiry, milkCreate, 90, 20)
+        );
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
+        control.distribute(list);
+        assertThat(warehouse.findBy(fd -> true).size(), is(1));
+        assertThat(warehouse.findBy(fd -> true).get(0).getName(), is("apple"));
+        assertThat(shop.findBy(fd -> true).size(), is(2));
+        assertThat(shop.findBy(fd -> true).get(0).getName(), is("meat"));
+        assertThat(shop.findBy(fd -> true).get(1).getPrice(), is(expectedPriceOfCola));
+        assertThat(trash.findBy(fd -> true).size(), is(1));
+        assertThat(trash.findBy(fd -> true).get(0).getName(), is("milk"));
     }
 }
