@@ -1,8 +1,8 @@
 package ru.job4j.parking;
 
-import ru.job4j.parking.autotransport.Transport;
+import ru.job4j.parking.transport.Transport;
 
 public interface Parking {
-    void park(Transport transport);
-    void remove(Transport transport);
+    boolean park(Transport transport);
+    boolean remove(Transport transport);
 }

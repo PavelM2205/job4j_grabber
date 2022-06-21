@@ -1,6 +1,6 @@
 package ru.job4j.parking.transportstore;
 
-import ru.job4j.parking.autotransport.Transport;
+import ru.job4j.parking.transport.Transport;
 
 import java.util.List;
 import java.util.function.Predicate;
