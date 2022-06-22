@@ -1,5 +1,7 @@
 package ru.job4j.parking.transport;
 
+import java.util.Objects;
+
 public class Car extends Transport {
     private final String model;
     private final String number;
@@ -19,5 +21,22 @@ public class Car extends Transport {
 
     public int getSize() {
         return Transport.MIN_SIZE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Car car = (Car) o;
+        return Objects.equals(model, car.model) && Objects.equals(number, car.number);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(model, number);
     }
 }
