@@ -8,10 +8,11 @@ import java.util.function.Predicate;
 
 public class CarStore implements Store {
     private int size;
-    private final List<Transport> carStore = new ArrayList<>(size);
+    private final List<Transport> carStore;
 
     public CarStore(int size) {
         this.size = size;
+        this.carStore = new ArrayList<>(size);
     }
 
     @Override
