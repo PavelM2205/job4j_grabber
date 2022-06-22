@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class TruckStore implements Store {
-    private final List<Transport> truckStore = new ArrayList<>();
     private int size;
+    private final List<Transport> truckStore = new ArrayList<>(size);
 
     public TruckStore(int size) {
         this.size = size;
@@ -17,7 +17,7 @@ public class TruckStore implements Store {
     @Override
     public boolean add(Transport transport) {
         boolean result = false;
-        if (transport.getSize() > Transport.MIN_SIZE && size > 0) {
+        if (transport.getSize() > Transport.MIN_SIZE && size >= Transport.MIN_SIZE) {
             truckStore.add(transport);
             size--;
             result = true;
