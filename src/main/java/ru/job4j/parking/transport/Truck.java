@@ -1,6 +1,5 @@
 package ru.job4j.parking.transport;
 
-import ru.job4j.parking.transportstore.TruckStore;
 
 public class Truck extends Transport {
     private final int size;
@@ -8,6 +7,9 @@ public class Truck extends Transport {
     private final String number;
 
     public Truck(int size, String model, String number) {
+        if (size <= Transport.MIN_SIZE) {
+            throw new IllegalArgumentException("Truck size must be more than 1.");
+        }
         this.size = size;
         this.model = model;
         this.number = number;

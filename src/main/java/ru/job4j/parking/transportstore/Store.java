@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface Store {
-    void add(Transport transport);
-    void delete(Transport transport);
+    boolean add(Transport transport);
+    boolean delete(Transport transport);
     List<Transport> findBy(Predicate<Transport> filter);
 }

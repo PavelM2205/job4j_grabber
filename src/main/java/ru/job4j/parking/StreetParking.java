@@ -14,11 +14,25 @@ public class StreetParking implements Parking {
 
     @Override
     public boolean park(Transport transport) {
-        return false;
+        boolean result = false;
+        for (var store : stores) {
+            if (store.add(transport)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
     public boolean remove(Transport transport) {
-        return false;
+        boolean result = false;
+        for (var store : stores) {
+            if (store.delete(transport)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }

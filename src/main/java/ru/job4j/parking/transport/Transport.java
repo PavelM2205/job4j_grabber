@@ -1,19 +1,11 @@
 package ru.job4j.parking.transport;
 
 public abstract class Transport {
-    private int size;
-    private String model;
-    private String number;
+    public static final int MIN_SIZE = 1;
 
-    public int getSize() {
-        return size;
-    }
+    public abstract int getSize();
 
-    public String getModel() {
-        return model;
-    }
+    public abstract String getModel();
 
-    public String getNumber() {
-        return number;
-    }
+    public abstract String getNumber();
 }

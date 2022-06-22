@@ -2,28 +2,41 @@ package ru.job4j.parking.transportstore;
 
 import ru.job4j.parking.transport.Transport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class CarStore implements Store {
-    private final int size;
+    private int size;
+    private final List<Transport> carStore = new ArrayList<>();
 
     public CarStore(int size) {
         this.size = size;
     }
 
     @Override
-    public void add(Transport transport) {
-
+    public boolean add(Transport transport) {
+        boolean result = false;
+        if (size >= transport.getSize()) {
+            carStore.add(transport);
+            size -= transport.getSize();
+            result = true;
+        }
+        return result;
     }
 
     @Override
-    public void delete(Transport transport) {
-
+    public boolean delete(Transport transport) {
+        boolean result = false;
+        if (carStore.remove(transport)) {
+            size += transport.getSize();
+            result = true;
+        }
+        return result;
     }
 
     @Override
     public List<Transport> findBy(Predicate<Transport> filter) {
-        return null;
+        return carStore.stream().filter(filter).toList();
     }
 }
