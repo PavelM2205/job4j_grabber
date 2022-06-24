@@ -5,9 +5,9 @@ import ru.job4j.isp.menu.*;
 import java.util.Scanner;
 
 public class TODOList {
-    Menu menu = new SimpleMenu();
-    MenuPrinter printer = new ConsoleMenuPrinter();
-    Scanner scanner = new Scanner(System.in);
+    private final Menu menu = new SimpleMenu();
+    private final MenuPrinter printer = new ConsoleMenuPrinter();
+    private final Scanner scanner = new Scanner(System.in);
     private static final int ADD_ROOT_TASK = 1;
     private static final int ADD_SUB_TASK = 2;
     private static final int SHOW_ALL_TASKS = 3;
