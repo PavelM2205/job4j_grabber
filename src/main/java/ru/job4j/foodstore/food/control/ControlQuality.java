@@ -24,4 +24,15 @@ public class ControlQuality implements Control {
             }
         }
     }
+
+    public void resort() {
+        List<Food> products = stores.stream()
+                .map(store -> store.findBy(food -> true))
+                .flatMap(List::stream)
+                .toList();
+        for (var store : stores) {
+            store.clearStore();
+        }
+        distribute(products);
+    }
 }

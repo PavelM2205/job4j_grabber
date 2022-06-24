@@ -166,4 +166,43 @@ public class ControlQualityTest {
         assertThat(trash.findBy(fd -> true).size(), is(1));
         assertThat(trash.findBy(fd -> true).get(0).getName(), is("milk"));
     }
+
+    @Test
+    public void whenChangeDateAndResortThenFoodsIntoStoresMustSwapPlaces() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime appleCreate = now.minusDays(20);
+        LocalDateTime appleExpiry = now.plusDays(80);
+        LocalDateTime meatCreate = now.minusDays(30);
+        LocalDateTime meatExpiry = now.plusDays(70);
+        LocalDateTime milkCreate = now.minusDays(120);
+        LocalDateTime milkExpiry = now.minusDays(5);
+        Store warehouse = new WareHouse();
+        Store shop = new Shop();
+        Store trash = new Trash();
+        ControlQuality control = new ControlQuality(List.of(warehouse, shop, trash));
+        Food apple = new Food("apple", appleExpiry, appleCreate, 150, 20);
+        Food meat = new Food("meat", meatExpiry, meatCreate, 500, 20);
+        Food milk = new Food("milk", milkExpiry, milkCreate, 90, 20);
+        List<Food> list = List.of(apple, meat, milk);
+        control.distribute(list);
+        assertThat(warehouse.findBy(fd -> true), is(List.of(apple)));
+        assertThat(shop.findBy(fd -> true), is(List.of(meat)));
+        assertThat(trash.findBy(fd -> true), is(List.of(milk)));
+        appleCreate = now.minusDays(30);
+        appleExpiry = now.plusDays(70);
+        apple.setCreateDate(appleCreate);
+        apple.setExpiryDate(appleExpiry);
+        meatCreate = now.minusDays(100);
+        meatExpiry = now;
+        meat.setCreateDate(meatCreate);
+        meat.setExpiryDate(meatExpiry);
+        milkCreate = now.minusDays(20);
+        milkExpiry = now.plusDays(80);
+        milk.setCreateDate(milkCreate);
+        milk.setExpiryDate(milkExpiry);
+        control.resort();
+        assertThat(warehouse.findBy(fd -> true), is(List.of(milk)));
+        assertThat(shop.findBy(fd -> true), is(List.of(apple)));
+        assertThat(trash.findBy(fd -> true), is(List.of(meat)));
+    }
 }

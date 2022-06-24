@@ -11,6 +11,7 @@ public interface Store {
     boolean accept(Food food);
     boolean add(Food food);
     List<Food> findBy(Predicate<Food> filter);
+    void clearStore();
 
     default double expiryCount(Food food) {
         LocalDateTime now = LocalDateTime.now();

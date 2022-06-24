@@ -28,4 +28,9 @@ public class Trash implements Store {
     public List<Food> findBy(Predicate<Food> filter) {
         return store.stream().filter(filter).toList();
     }
+
+    @Override
+    public void clearStore() {
+        store.clear();
+    }
 }
