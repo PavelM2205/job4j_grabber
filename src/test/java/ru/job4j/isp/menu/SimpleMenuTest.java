@@ -1,9 +1,7 @@
 package ru.job4j.isp.menu;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import org.junit.Test;
 
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +57,8 @@ public class SimpleMenuTest {
         String test = "abc";
         ActionDelegate delegate = () -> list.add(test);
         menu.add(Menu.ROOT, "Убраться в квартире", delegate);
-        menu.select("Убраться в квартире");
+        Menu.MenuItemInfo itemInfo = menu.select("Убраться в квартире").get();
+        itemInfo.getActionDelegate().delegate();
         assertEquals(list, List.of("abc"));
     }
 }

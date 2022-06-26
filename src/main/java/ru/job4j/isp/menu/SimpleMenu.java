@@ -7,39 +7,28 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        boolean result = false;
-        if (!checkDuplicate(childName)) {
-            if (parentName == Menu.ROOT) {
-                rootElements.add(new SimpleMenuItem(childName, actionDelegate));
-                result = true;
-            } else {
-                Optional<ItemInfo> optionalParent = findItem(parentName);
-                if (optionalParent.isPresent()) {
-                    SimpleMenuItem newItem = new SimpleMenuItem(childName, actionDelegate);
-                    SimpleMenuItem parentItem = (SimpleMenuItem) optionalParent.get().menuItem;
-                    result = parentItem.addChildren(newItem);
-                }
-            }
-        }
-        return result;
-    }
-
-    private boolean checkDuplicate(String childName) {
-        boolean result = false;
         if (findItem(childName).isPresent()) {
+            return false;
+        }
+        boolean result = false;
+        if (parentName == Menu.ROOT) {
+            rootElements.add(new SimpleMenuItem(childName, actionDelegate));
             result = true;
+        } else {
+            Optional<ItemInfo> optionalParent = findItem(parentName);
+            if (optionalParent.isPresent()) {
+                SimpleMenuItem newItem = new SimpleMenuItem(childName, actionDelegate);
+                SimpleMenuItem parentItem = (SimpleMenuItem) optionalParent.get().menuItem;
+                result = parentItem.addChildren(newItem);
+            }
         }
         return result;
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<MenuItemInfo> result = findItem(itemName).map(itemInfo -> new MenuItemInfo(
+        return findItem(itemName).map(itemInfo -> new MenuItemInfo(
                 itemInfo.menuItem, itemInfo.number));
-        if (result.isPresent()) {
-            result.get().getActionDelegate().delegate();
-        }
-        return result;
     }
 
     @Override

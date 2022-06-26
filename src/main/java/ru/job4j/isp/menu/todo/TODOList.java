@@ -32,20 +32,13 @@ public class TODOList {
 
     private void actions(int choice) {
         switch (choice) {
-            case ADD_ROOT_TASK:
-                addRootTask();
-                break;
-            case ADD_SUB_TASK:
-                addSubTask();
-                break;
-            case SHOW_ALL_TASKS:
-                showTasks();
-                break;
-            case EXIT:
+            case ADD_ROOT_TASK -> addRootTask();
+            case ADD_SUB_TASK -> addSubTask();
+            case SHOW_ALL_TASKS -> showTasks();
+            case EXIT -> {
                 run = false;
-                break;
-            default:
-                System.out.println();
+            }
+            default -> System.out.println();
         }
     }
 
